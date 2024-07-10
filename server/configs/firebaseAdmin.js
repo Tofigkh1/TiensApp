@@ -2,7 +2,7 @@ import admin from "firebase-admin";
 
 if (!admin.apps.length) {
 
-    const serviceAccount = require("./tiensapp-92bab-firebase-adminsdk-gmgsg-561f9f954a");
+    const serviceAccount = require("./tiensapp-92bab-firebase-adminsdk-gmgsg-67f4ab799d");
     
 
 
