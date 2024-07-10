@@ -55,7 +55,11 @@ const RegisterForm= (props:Props) => {
         try{
          
          setLoading(true)
+
          await postSignUp(values)
+
+        await postSignUp(values)
+
          .then(()=>{
            
             toast({
@@ -89,7 +93,6 @@ const RegisterForm= (props:Props) => {
             })
           })
 
-       
           
         }catch(err){
           console.log(err);
