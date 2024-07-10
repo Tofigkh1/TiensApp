@@ -6,7 +6,7 @@ import Image from "next/image";
 
 function AboutUs() {
  
-
+//
   return (
     <>
      
