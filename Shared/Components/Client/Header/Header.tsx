@@ -8,7 +8,7 @@ import Nav from '../Nav/Nav';
 import { useResize } from '../../../Hooks/useResize';
 import { useModalOpen } from '../../../Hooks/useModalOpen';
 import { useRouter } from 'next/router';
-import Logo from '../../Svg/Logo';
+import Logo from '../svg/Logo';
 import Bacground from '../../../../public/homeBacground.svg';
 import Medicine from "../../../../public/Medicine.svg";
 import Medicinees from "../../../../public/medicalbanner.jpg";

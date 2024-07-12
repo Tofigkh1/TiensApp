@@ -1,6 +1,6 @@
 import styles from './products.module.css';
 import React from 'react';
-import PlusSvg from "../../Svg/PlusSvg";
+import PlusSvg from "../svg/PlusSvg";
 
 type ProductState = {
     id: string;
