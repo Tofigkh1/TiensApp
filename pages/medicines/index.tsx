@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from './restaurants.module.css';
 import { useRouter } from "next/router";
-import FilterSvg from '../../shared/components/Svg/FilterSvg';
-import CloseSvg from "../../Shared/Components/Svg/CloseSvg";
+import FilterSvg from '../../Shared/Components/Client/svg/FilterSvg';
+import CloseSvg from "../../Shared/Components/Client/svg/CloseSvg";
 
 import { useModalOpen } from "../../Shared/Hooks/useModalOpen";
 import { useResize } from "../../Shared/Hooks/useResize";

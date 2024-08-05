@@ -1,5 +1,5 @@
 // components/Footer.tsx
-import RightIcon from "../../Svg/RightIcon";
+import RightIcon from "../svg/RightIcon";
 import Search2 from "../Search2/search2";
 
 import { Box, Button, Container, Flex, Heading, Input, Stack, Text, Link } from "@chakra-ui/react";
