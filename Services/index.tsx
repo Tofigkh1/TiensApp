@@ -24,3 +24,18 @@ export const postSignUp = (body:object) => {
         data: body
     })
 }
+
+
+
+
+export const PutAuthUserr = (body: object): AxiosPromise => {
+    const accessToken = localStorage.getItem("access_token");
+    return instanceAxios({
+        method: "PUT",
+        url: "auth/user",
+        data: body,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+};

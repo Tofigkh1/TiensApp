@@ -16,6 +16,9 @@
     "incremental": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "Shared/Components/Client/Testimol/index.jsx"],
-  "exclude": ["node_modules"]
+  "include": ["src","next-env.d.ts", "**/*.ts", "**/*.tsx", "Shared/Components/Client/Testimol/index.jsx", "Shared/Components/uploadImage/UploadImage.tsx"],
+  "exclude": ["node_modules"],
+  "paths": {
+    "@/*": ["./*"]
+  }
 }

@@ -4,12 +4,18 @@ import userReducer from '../Featuries/User/userSlice';
 import sidebarReducer from '../Featuries/Sidebar/sideBarSlice';
 
 
+
 const makeStore = () =>
     configureStore({
         reducer: {
             user: userReducer,
             sidebar: sidebarReducer
-        }
+        },
+        middleware(getDefaultMiddleware) {
+            return getDefaultMiddleware().concat(
+               
+            )
+        },
       
     });
 

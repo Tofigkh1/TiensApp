@@ -1,21 +1,30 @@
 import { wrapper } from '../Shared/Redux/Store/store'; 
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
-import theme from "../Theme/index"; // Import your custom theme if you have one
+import themes from "../Theme/index"; 
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import '../styles/globals.css';
 
-import '../styles/globals.css'
+const muiTheme = createTheme({
+  palette: {
+    mode: 'light', 
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  const {store} = wrapper.useWrappedStore(pageProps)
+  const { store } = wrapper.useWrappedStore(pageProps);
   return (
     <Provider store={store}>
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+      <MuiThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <ChakraProvider theme={themes}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </MuiThemeProvider>
     </Provider>
   );
 }

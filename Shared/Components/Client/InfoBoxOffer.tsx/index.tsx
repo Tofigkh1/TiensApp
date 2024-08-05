@@ -13,6 +13,7 @@ import patternIcon from '../../../../public/patternIcon.svg'
 import feedBackImg from '../../../../public/Feedback.jpg'
 import feedBack2 from '../../../../public/Feedback2.jpg'
 import Testimonial from '../Testimol';
+import { Button, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList } from '@chakra-ui/react';
 
 interface Props{
     row:boolean,
@@ -41,7 +42,7 @@ function InfoBoxOffer (props:Props){
     let {row,img,desc,title,w,h}=props
 
     return (
-        <div className={style.bodyBackground} >
+        <div className=' mt-20' >
 
 <div className={style.oneOfferDiv}>
 <div className='' data-aos={mobile?'fade-up':"fade-right"}>
