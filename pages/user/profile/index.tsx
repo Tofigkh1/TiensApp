@@ -20,6 +20,7 @@ import { db } from "../../../server/configs/firebase";
 import Image from 'next/image';
 import Footer from '../../../Shared/Components/Client/Footer';
 import UserForm from '../../../Shared/Components/Client/userForm';
+import Auth from '../../../Shared/Components/Client/Auth/Auth';
 
 // Styled Components
 const Container = styleds.div`
@@ -38,7 +39,7 @@ const Header = styleds.header`
 const MainSection = styleds.section`
   position: relative;
   display: flex;
-  padding: 30px;
+  padding: 20px;
   justify-content: space-between;
   align-items: center;
 
@@ -113,7 +114,7 @@ function Profile() {
   const { push } = useRouter();
   const [IMG, setIMG] = useState([]);
   const [downloadURL, setDownloadURL] = useState(''); 
-  const [loading, setLoading] = useState(false); // Yüklenme durumu için state ekleyin
+  const [loading, setLoading] = useState(false); 
 
   const [mobile, setmobile] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -131,6 +132,9 @@ function Profile() {
       setIsLoggedIn(true);
     }
   }, [mobile]);
+
+
+  
 
   useEffect(() => {
     fetchProfileImage();
@@ -169,6 +173,11 @@ function Profile() {
             />
           </div>
           <Nav />
+
+          <div>
+           <Auth/>
+          </div>
+          
         </Header>
 
         <MainSection>
@@ -184,9 +193,9 @@ function Profile() {
           
           <div className={mobile ? 'hidden' : ' w-80'}>
             <Navbar active={1} />
-                        
-
           </div>
+
+         
 
 
           <div className=" w-9/12 h-60 mt-4 rounded-2xl mr-5">

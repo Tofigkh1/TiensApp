@@ -45,7 +45,6 @@ export default function Auth() {
         localStorage.removeItem("user_info");
         dispatch(clearUser());
         setAccessToken(null);
-        push('/');
     };
     
     

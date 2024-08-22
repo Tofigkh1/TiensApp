@@ -21,6 +21,57 @@ body {
 
 
 
+
+
+
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+
+/* border: solid black; */
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.swiper-slide img {
+
+margin-left: 10px;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ margin-top: 10px;
+  border-radius: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 button {
   cursor: pointer;
 }

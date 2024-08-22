@@ -55,7 +55,7 @@ export default async function handler(req, res) {
         username,
         fullname,
         phone,
-        address, // address alanı eklendi
+        address,
       };
 
       await admin.auth().updateUser(decodedToken.userId, updateUser);

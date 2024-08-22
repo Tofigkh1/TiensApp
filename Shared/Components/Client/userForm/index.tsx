@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Input from '../../Client/userInp/index';
@@ -48,11 +48,18 @@ const UserForm: React.FC<Props> = (props: Props) => {
 
     const dispatch: AppDispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
+    useEffect(()=> {
+        let user = localStorage.getItem("user_info");
+        if(user){
+            user = JSON.parse(user);
+            if(user) dispatch(setUser(user));
+        }
+    }, [])
 
     const onSubmit = async (values: FormValues) => {
         console.log(img);
 
-        if (!img) {
+        if (img == undefined || img === "") {
             toast({
                 title: `You have to add image to profile`,
                 status: 'info',
