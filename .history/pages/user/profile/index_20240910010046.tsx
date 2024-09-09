@@ -138,7 +138,7 @@ function Profile() {
     const token = localStorage.getItem('access_token');
     const userInfo = localStorage.getItem('user_info');
     if (!token) {
-  
+      // Eğer token yoksa, kullanıcıyı giriş sayfasına yönlendirin
       push('/login-register');
     }
   
@@ -161,7 +161,7 @@ function Profile() {
   }, []);
 
   const fetchProfileImage = async () => {
-    setLoading(true);
+    setLoading(true); // Yüklenme durumu başlat
     const q = query(collection(db, "images"), orderBy("timestamp", "desc"), limit(1));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {

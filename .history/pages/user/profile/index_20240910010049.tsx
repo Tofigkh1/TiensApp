@@ -138,7 +138,7 @@ function Profile() {
     const token = localStorage.getItem('access_token');
     const userInfo = localStorage.getItem('user_info');
     if (!token) {
-  
+      // Eğer token yoksa, kullanıcıyı giriş sayfasına yönlendirin
       push('/login-register');
     }
   
