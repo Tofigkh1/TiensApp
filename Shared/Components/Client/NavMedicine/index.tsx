@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { clearUser } from "../../../Redux/Featuries/User/userSlice";
-import { useResize } from "../../../Context";
+import { useResize } from "../../../Hooks/useResize";
 import styless from './navMedicine.module.css';
 
 export default function NavMedicine() {
