@@ -1,0 +1,62 @@
+/* ------------------ */
+
+.buyButton {
+
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    right: 0;
+  }
+  
+  /* Menü ayarları */
+  .menu {
+    position: fixed;
+    right: -50%; /* Menü başlangıçta ekranın dışında, sağdan sola kayacak */
+    top: 0;
+    width: 36%; /* Sayfanın yarısına kadar genişlik */
+    height: 100%; /* Tam yükseklik */
+    background-color:wheat;
+    transition: right 0.2s ease-in-out;
+    z-index: 1000; /* Menü her şeyin üstünde */
+  }
+  
+  
+  .menuOpen {
+    right: 0; /* Açıldığında ekranın yarısına kadar çıksın */
+  }
+  
+  .menuClosed {
+    right: -50%; /* Kapanırken ekranın sağına geri insin */
+  }
+  
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.323); /* Şeffaf arka plan rengi */
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0; /* Başlangıçta görünmez */
+    z-index: 1000; /* Menüden önce */
+    pointer-events: none; /* Overlay'e tıklanamaz */
+  }
+  
+  .overlayVisible {
+    opacity: 1; /* Görünür hale gelir */
+    pointer-events: auto; /* Overlay'e tıklanabilir */
+  }
+  
+  .overlayHidden {
+    opacity: 0; /* Gizlenir */
+  }
+  
+
+
+
+/* ------------------- */

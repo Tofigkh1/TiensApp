@@ -1,0 +1,1 @@
+<button  className={styles.buyButton}>add to basket</button>
