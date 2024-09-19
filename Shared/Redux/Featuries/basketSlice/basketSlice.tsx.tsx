@@ -1,12 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { AddBasket, GetBasket, deleteBasket, clearBasket } from '../../../../Services/index';
 
+
+
+import { AddBasket, GetBasket, deleteBasket } from '../../../../Services/index';
+
+// Sadece response.data.result.data döndüren yeni async thunk
 
 export const fetchBasket = createAsyncThunk('basket/fetchBasket', async () => {
     const response = await GetBasket();
     console.log("responseBasket", response);
-    
+
     return response.data.result.data;  
+
+    return response.data.result.data;  // Burada sadece response.data.result.data döndürülüyor
+
 });
 
 export const addToBasket = createAsyncThunk(
@@ -21,6 +30,7 @@ export const addToBasket = createAsyncThunk(
     }
 );
 
+
 export const deleteAllBasket = createAsyncThunk(
     'basket/deleteAllBasket',
     async (basketId, { rejectWithValue }) => {
@@ -32,6 +42,7 @@ export const deleteAllBasket = createAsyncThunk(
         }
     }
 );
+
 
 
 export const deleteFromBasket = createAsyncThunk(
@@ -49,7 +60,11 @@ export const deleteFromBasket = createAsyncThunk(
 const basketSlice = createSlice({
     name: 'basket',
     initialState: {
+
         data: {},
+
+        data: {},  // items yerine response.data.result.data'yi tutmak için 'data' kullanıyoruz
+
         status: 'idle',
         error: null,
     },
@@ -57,7 +72,11 @@ const basketSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchBasket.fulfilled, (state, action) => {
+
                 state.data = action.payload;  
+
+                state.data = action.payload;  // Veriyi sadece 'data' ile güncelliyoruz
+
                 state.status = 'succeeded';
             })
             .addCase(fetchBasket.pending, (state) => {
@@ -80,12 +99,14 @@ const basketSlice = createSlice({
             })
             .addCase(deleteFromBasket.rejected, (state, action) => {
                 state.error = action.payload;
+
             })
             .addCase(deleteAllBasket.fulfilled, (state) => {
                 state.data.items = [];
             })
             .addCase(deleteAllBasket.rejected, (state, action) => {
                 state.error = action.payload;
+
             });
     },
 });

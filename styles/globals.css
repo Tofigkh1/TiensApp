@@ -13,6 +13,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 
@@ -83,6 +84,67 @@ body {
 .mySwiper .swiper-slide:hover {
   background-color: #26d6a1;
 }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+/* ----------------------- */
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------- */
+
+
+
+
+
+
+
+
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+
+/* border: solid black; */
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.mySwiper .swiper-slide  {
+  transition: background-color 0.3s ease;
+}
+
+.mySwiper .swiper-slide:hover {
+  background-color: #26d6a1;
+}
+
 
 .swiper-slide img {
 

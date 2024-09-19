@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState,useContext, createContext,useReducer } from 'react'
 import Categories from '../../../Shared/Components/Client/headerCategory'
 import withClientAuth from '../../../Shared/HOC/withClienAuth';
@@ -501,5 +502,12 @@ const handleChange1 = (event:any) => {
 
 
    </>
+
+import React from 'react'
+
+export default function index() {
+  return (
+    <div>checkout</div>
+
   )
 }

@@ -23,9 +23,11 @@ import UserForm from '../../../Shared/Components/Client/userForm';
 import Auth from '../../../Shared/Components/Client/Auth/Auth';
 import { DotLoader } from 'react-spinners';
 import BasketMenu from '../../../Shared/Components/sliderBasket/sliderBasket';
+
 import { Box, Tag, VStack, SimpleGrid, Flex, Text } from "@chakra-ui/react";
 import Categories from '../../../Shared/Components/Client/headerCategory';
 import Sidebar, { SidebarItem } from '../../../Shared/Components/Client/SideBarMenu';
+
 
 
 
@@ -120,8 +122,12 @@ const LargeAvatar = styled(Avatar)({
 
 
 
+
 function Profile() {
   const [activeIndex, setActiveIndex] = useState<number>(4);
+
+function Profile() {
+
   const { push } = useRouter();
   const [IMG, setIMG] = useState([]);
   const [downloadURL, setDownloadURL] = useState(''); 
@@ -132,6 +138,10 @@ function Profile() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
 
+
+
+
+  console.log("reduxUser",user);
 
 
 
@@ -211,6 +221,7 @@ function Profile() {
         </Header>
 
 
+
         
       </Container>
 
@@ -277,6 +288,29 @@ function Profile() {
           <div className=" w-9/12 h-60 mt rounded-2xl mr-5 absolute right-0">
 
           <div className=' flex gap-3 mt-8'>
+
+        <MainSection>
+          <Curve />
+        </MainSection>
+        
+      </Container>
+
+      <div className="px-1 pb-[20px]">
+       
+
+        <div className="flex gap-10">
+          
+          <div className={mobile ? 'hidden' : ' w-80'}>
+            <Navbar active={1} />
+          </div>
+
+         
+
+
+          <div className=" w-9/12 h-60 mt-4 rounded-2xl mr-5">
+
+          <div className=' flex gap-3'>
+
           <h1 className=' font-bold text-2xl'>Profile ></h1>
           <h1 className='  text-fontcolorhow text-2xl'>Dashboard</h1>
           </div>
@@ -291,7 +325,11 @@ function Profile() {
                 <DotLoader color="#28e4c5" speedMultiplier={1.6} size={90} />
               </div>
             ) : downloadURL ? (
+
               <div style={{ width: '1080px', height: '300px', position: 'relative'}}>
+
+              <div style={{ width: '100%', height: '300px', position: 'relative'}}>
+
 
                 <Image
                   src={downloadURL}
@@ -334,12 +372,19 @@ function Profile() {
 
             </div>
             
+
             <div className=' w-9/12 mt-12 z-50 h-auto '>
+
+            <div className=' w-9/12 mt-12 z-50 h-auto'>
+
         <UserForm img={IMG}/>
         </div>
            
           </div>
+
          
+
+
           
          
         </div>
@@ -348,9 +393,11 @@ function Profile() {
       
       </div>
 
+
       <div className=' mt-64'>
 
       </div>
+
 
       <Footer/>
     </>

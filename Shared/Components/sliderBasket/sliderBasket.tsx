@@ -3,6 +3,7 @@ import styles from './Slider.module.css';
 import Image from 'next/image';
 import shoppingBag from '../../../public/shopping-bag.png';
 import emptyBag from '../../../public/Emptybasket (1).png';
+
 import closedBag from '../../../public/left-chevron.png';
 import plus from '../../../public/plus (3).png';
 import minus from '../../../public/minus-circle.png';
@@ -36,9 +37,28 @@ const BasketMenu = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   
 
+import closedBag from '../../../public/cross.png';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Redux/Store/store';
+import { GetBasket } from '../../../Services';
+import Swiper from 'swiper';
+import { useRouter } from 'next/router';
+
+const BasketMenu = () => {
+  const basket = useSelector((state: RootState) => state.basket);
+  const basketCount = basket?.data?.total_count;
+  const basketAmount = basket?.data?.total_amount;
+  const basketItems = basket?.data?.items || [];
+  const basketName = basketItems[0]?.name
+
+
   const [imageUrl, setImageUrl] = useState<string[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  
+  
+  
   const [timeLeft, setTimeLeft] = useState(3000);
   let { push} = useRouter();
   const [progress, setProgress] = useState(0);
@@ -82,17 +102,28 @@ const BasketMenu = () => {
     setProgress((timeLeft / 3000) * 100);
   }, [timeLeft]);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const dataResult = await GetBasket();
         const items = dataResult?.data?.result?.data?.items || [];
         const imgUrls = items.map((item: any) => item.img_url);
+
         setImageUrl(imgUrls);
+
+        setImageUrl(imgUrls); 
+
       } catch (error) {
         console.error("Error fetching basket data", error);
       }
     };
+
+    fetchData();
+  }, []);
+
+
+
     fetchData();
   }, []);
 
@@ -110,6 +141,7 @@ const BasketMenu = () => {
   useEffect(() => {
     const imgUrls = basketItems.map((item: any) => item.img_url);
     setImageUrl(imgUrls);
+
   }, [basketItems]);
 
   const handleToggleMenu = () => {
@@ -223,6 +255,19 @@ const BasketMenu = () => {
 
 
 
+
+  }, []);
+
+  
+
+
+
+
+  const handleToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+
   return (
     <>
       <button onClick={handleToggleMenu} className={styles.buyButton}>
@@ -238,6 +283,7 @@ const BasketMenu = () => {
 
       <div className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : styles.menuClosed}`}>
         <div ref={menuRef} className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : styles.menuClosed}`}>
+
           {basketItems.length > 0 ? (
             <div>
             
@@ -363,6 +409,40 @@ const BasketMenu = () => {
                 <button onClick={()=>push('/user/checkout')} className=' bg-clientButtonGreen w-64 h-12 rounded-lg font-semibold text-xl'>Checkout</button>
               </div>
             </div>
+
+          <button onClick={handleToggleMenu} className={styles.buyButton}>
+            <div className='flex right-0'>
+              <Image src={closedBag} width={50} height={50} alt="Close Icon"/>
+            </div>
+          </button>
+
+          {basketItems.length > 0 ? (
+            <div>
+                 {basketItems.map((items, index) => (
+   <div key={index}  className="w-56 h-32 h-auto m-4 rounded-2xl border border-whiteLight3 bg-white flex">
+             
+                  <div spaceBetween={50} slidesPerView={1} className="mySwiper cursor-pointer">
+     
+        
+                <Image key={index} src={items.img_url} alt={`Product Image ${index + 1}`} width={120} height={120} />
+         
+                  </div>
+
+                  <h1 className=' font-bold text-xl' key={index}>{items.name}</h1>
+
+                  <h1 key={index}>{items.amount}</h1>
+                </div>
+                     ))}
+
+                     {/* <div>
+                     {basketItems.map((name,index)=>(
+                  <h1 key={index}>{name}</h1>
+                 ))}
+                     </div> */}
+              
+            </div>
+
+        
           ) : (
             <div>
               <div className='ml-32'>

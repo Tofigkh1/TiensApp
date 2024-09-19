@@ -16,10 +16,17 @@
     position: fixed;
     right: -50%; /* Menü başlangıçta ekranın dışında, sağdan sola kayacak */
     top: 0;
+
     width: 39%; /* Sayfanın yarısına kadar genişlik */
     height: 100%; /* Tam yükseklik */
     background-color:white;
     transition: right 0.2s ease-in-out;
+
+    width: 36%; /* Sayfanın yarısına kadar genişlik */
+    height: 100%; /* Tam yükseklik */
+    background-color:white;
+    transition: right 0.3s ease-in-out;
+
     z-index: 1000; /* Menü her şeyin üstünde */
   }
   
@@ -32,6 +39,7 @@
     right: -50%; /* Kapanırken ekranın sağına geri insin */
   }
   
+
   .line {
     width: 93%;  /* Genişliği istediğin şekilde ayarlayabilirsin */
     height: 1px;  /* Çizginin kalınlığı */
@@ -40,6 +48,7 @@
    margin-left: 25px;
 
   }
+
 
 .overlay {
     position: fixed;
@@ -66,7 +75,7 @@
 
 
 
-/* ------------------- */
+
 
 
 
@@ -132,3 +141,4 @@
 .scrollContainer::-webkit-scrollbar-track {
   background-color: #fff;  /* Arka plan */
 }
+

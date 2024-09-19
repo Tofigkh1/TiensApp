@@ -65,7 +65,6 @@ export const AddBasket: (basketProduct: BasketPostDataType) => AxiosPromise<Bask
 };
 
 
-
 export const deleteBasket: (
     basketProduct: BasketPostDataType
 ) => AxiosPromise<BasketPostDataType> = (basketProduct) => {
@@ -79,7 +78,6 @@ export const deleteBasket: (
         },
     });
 };
-
 export const clearBasket: (
     basketId: BasketPostDataType
 ) => AxiosPromise<BasketPostDataType> = (basketId) => {

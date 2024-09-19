@@ -4,7 +4,9 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ['firebasestorage.googleapis.com', 'images.pexels.com','tiens.com.tr', 'img.freepik.com', 'obsjtmm.jtmm.com','encrypted-tbn0.gstatic.com',"w0.peakpx.com"],
+
     formats: ['image/avif', 'image/webp'],
+
   },
 };
 
