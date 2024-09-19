@@ -24,6 +24,12 @@ import Auth from '../../../Shared/Components/Client/Auth/Auth';
 import { DotLoader } from 'react-spinners';
 import BasketMenu from '../../../Shared/Components/sliderBasket/sliderBasket';
 
+import { Box, Tag, VStack, SimpleGrid, Flex, Text } from "@chakra-ui/react";
+import Categories from '../../../Shared/Components/Client/headerCategory';
+import Sidebar, { SidebarItem } from '../../../Shared/Components/Client/SideBarMenu';
+
+
+
 
 // Styled Components
 const Container = styleds.div`
@@ -113,7 +119,15 @@ const LargeAvatar = styled(Avatar)({
   height: 100,
 });
 
+
+
+
+
 function Profile() {
+  const [activeIndex, setActiveIndex] = useState<number>(4);
+
+function Profile() {
+
   const { push } = useRouter();
   const [IMG, setIMG] = useState([]);
   const [downloadURL, setDownloadURL] = useState(''); 
@@ -124,7 +138,11 @@ function Profile() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
 
+
+
+
   console.log("reduxUser",user);
+
 
 
   useEffect(() => {
@@ -202,6 +220,75 @@ function Profile() {
                         </div>
         </Header>
 
+
+
+        
+      </Container>
+
+      <Categories/>
+
+      <div className="">
+       
+
+        <div className="flex gap-40 ">
+          
+          {/* <div className={mobile ? 'hidden' : ' w-80'}>
+            <Navbar active={1} />
+          </div> */}
+
+       <div className=''>
+     
+<Sidebar>
+        <SidebarItem
+          icon={<img src="/userProfileIcon.svg" alt="Profile" width={35} height={35} />}
+          text="Your Profile"
+          active={activeIndex === 1}
+          onClick={()=>push('/user/profile')}
+        />
+        <SidebarItem
+          icon={<img src="/shopping-bag.png" alt="Basket" width={35} height={35} />}
+          text="Your Basket"
+          active={activeIndex === 2}
+          onClick={()=>push('/user/basket')}
+        />
+        <SidebarItem
+          icon={<img src="/fulfillment.png" alt="Orders" width={35} height={35} />}
+          text="Your Orders"
+          active={activeIndex === 3}
+          onClick={()=>push('/user/orders')}
+        />
+        <SidebarItem
+          icon={<img src="/ShoppingCheck3.png" alt="Checkout" width={35} height={35} />}
+          text="Checkout"
+          active={activeIndex === 4}
+          onClick={()=>push('/user/checkout')}
+        />
+        <SidebarItem
+          icon={<img src="/exit.png" alt="Logout" width={35} height={35} />}
+          text="Logout"
+          active={activeIndex === 5}
+          onClick={()=>{
+            push('/')
+            localStorage.removeItem("user_info")
+            localStorage.removeItem("access_token")
+            handleSignOut()
+            setUser(null);
+            dispatch(clearUser());
+          
+        }}
+        />
+      </Sidebar>
+
+      </div>   
+
+    
+
+    
+
+          <div className=" w-9/12 h-60 mt rounded-2xl mr-5 absolute right-0">
+
+          <div className=' flex gap-3 mt-8'>
+
         <MainSection>
           <Curve />
         </MainSection>
@@ -223,6 +310,7 @@ function Profile() {
           <div className=" w-9/12 h-60 mt-4 rounded-2xl mr-5">
 
           <div className=' flex gap-3'>
+
           <h1 className=' font-bold text-2xl'>Profile ></h1>
           <h1 className='  text-fontcolorhow text-2xl'>Dashboard</h1>
           </div>
@@ -237,7 +325,11 @@ function Profile() {
                 <DotLoader color="#28e4c5" speedMultiplier={1.6} size={90} />
               </div>
             ) : downloadURL ? (
+
+              <div style={{ width: '1080px', height: '300px', position: 'relative'}}>
+
               <div style={{ width: '100%', height: '300px', position: 'relative'}}>
+
 
                 <Image
                   src={downloadURL}
@@ -280,11 +372,18 @@ function Profile() {
 
             </div>
             
+
+            <div className=' w-9/12 mt-12 z-50 h-auto '>
+
             <div className=' w-9/12 mt-12 z-50 h-auto'>
+
         <UserForm img={IMG}/>
         </div>
            
           </div>
+
+         
+
 
           
          
@@ -293,6 +392,12 @@ function Profile() {
 
       
       </div>
+
+
+      <div className=' mt-64'>
+
+      </div>
+
 
       <Footer/>
     </>

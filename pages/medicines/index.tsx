@@ -275,27 +275,59 @@ function Medicines() {
 
 
           <div>
+
       {/* <Box as="h3" fontSize="lg" className="text-white cursor-pointer">
         Categories
       </Box> */}
+
 
       <Flex wrap="wrap" justifyContent="start" gap={3}>
 
 
         
         {categories?.map((category: any) => (
+
+          <Text
+            key={category.id}
+            position="relative"
+            fontSize="19px"
+            letterSpacing="0.03em"
+            color="white"
+            cursor="pointer"
+
           <Tag
             key={category.id}
             colorScheme={hoveredCategory === category.id ? "blue" : "teal"}
+
             onMouseEnter={() => handleCategoryHover(category.id)}  
             onMouseLeave={() => !isHovered && setHoveredCategory(null)}
             onClick={() => handleCategory(category.id)} 
             className="cursor-pointer"
             style={{ transition: 'background-color 0.3s ease' }}
+
+           
+            _before={{
+              content: '""',
+              position: 'absolute',
+              width: hoveredCategory === category.id ? '100%' : '0',
+              height: '2px',
+              left: 0,
+              bottom: '-2px',
+              backgroundColor: '#26d6a1',
+              transition: 'width 0.3s ease',
+            }}
+            _hover={{
+              color: '#26d6a1',
+            }}
+          >
+            {category.name}
+          </Text>
+
             _hover={{ bg: '#26d6a1' }}
           >
             {category.name}
           </Tag>
+
         ))}
       </Flex>
 
