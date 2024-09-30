@@ -19,6 +19,8 @@ interface FormValues {
     address: string;
 }
 
+
+
 const validationSchema = Yup.object().shape({
     phoneNumber: Yup.string()
         .matches(/^\+994\d{9}$/, 'Phone number must start with +994 and have 9 additional digits')
@@ -46,8 +48,33 @@ const UserForm: React.FC<Props> = (props: Props) => {
     let { img } = props;
     let [logoding, setlogoding] = useState(false);
 
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        phoneNumber: '',
+        username: '',
+        email: '',
+        fullname: '',
+        address: ''
+    });
+
     const dispatch: AppDispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user_info");
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            if (parsedUser) {
+                dispatch(setUser(parsedUser));
+                setInitialValues({
+                    phoneNumber: parsedUser.phoneNumber || '',
+                    username: parsedUser.username || '',
+                    email: parsedUser.email || '',
+                    fullname: parsedUser.fullname || '',
+                    address: parsedUser.address || ''
+                });
+            }
+        }
+    }, [dispatch]);
 
     useEffect(() => {
         let user = localStorage.getItem("user_info");
@@ -126,15 +153,10 @@ console.log("values", values);
     return (
         <div>
             <Formik
-                initialValues={{
-                    phoneNumber: user.phoneNumber || '',
-                    username: user.username || '',
-                    email: user.email || '',
-                    fullname: user.fullname || '',
-                    address: user.address || '',
-                }}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
+              initialValues={initialValues}
+              enableReinitialize={true}    
+              validationSchema={validationSchema}
+              onSubmit={onSubmit}
             >
                 {({ handleChange, values }) => (
 
@@ -142,14 +164,14 @@ console.log("values", values);
                     <Form>
                         <div className={div}>
                             <div className={inpdiv}>
-                                <Input
-                                    name='phone'
-                                    type='text'
-                                    value={values.phoneNumber}
-                                    onChange={handleChange}
-                                    placeholder='+994 XX XXX XX XX'
-                                    title="Contact Number"
-                                />
+                            <Input
+    name='phoneNumber'
+    type='text'
+    value={values.phoneNumber}
+    onChange={handleChange}
+    placeholder='+994 XX XXX XX XX'
+    title="Contact Number"
+/>
                                 <Input
                                     name='username'
                                     type='text'

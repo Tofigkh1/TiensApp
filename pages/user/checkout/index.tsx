@@ -36,9 +36,20 @@ import { clearUser, setUser } from '../../../Shared/Redux/Featuries/User/userSli
 import { useResize } from '../../../Shared/Hooks/useResize';
 import { useToast } from '@chakra-ui/react';
 import Image from "next/image";
+import { sendOrder, resetOrderState } from '../../../Shared/Redux/Store/store'
+import WhatsAppButton from "../../../Shared/Components/Client/whatsappButton";
+import TelegramButton from "../../../Shared/Components/Client/telegramButton";
+import minus from "../../../public/minus-circle.png";
+import plus from "../../../public/plus (3).png";
+import {addToBasket, deleteFromBasket, fetchBasket} from "../../../Shared/Redux/Featuries/basketSlice/basketSlice";
+import ProductPageCount from '../../../Shared/Components/Client/productPageCount';
+import SimpleForm from '../../../Shared/Components/Client/CheckoutForm';
+import OverlayPayment from '../../../Shared/Components/Client/OverlayPaymentScreen';
+import { OrderPostDataType } from '../../../Shared/Interface';
 
 
-// Sidebar context oluşturuldu
+
+
 const SidebarContext = createContext();
 
 // Styled Components
@@ -209,34 +220,141 @@ const formatPhoneNumber = (value:any) => {
 
 
 export default function index() {
+    // const { loading, success, error } = useSelector((state) => state.order);
+
     const dispatchh: AppDispatch = useDispatch();
 
     const basket = useSelector((state: RootState) => state.basket);
 
-    console.log("basket",basket)
   const user = useSelector((state: RootState) => state.user);
+
+
+
     const basketItems = basket?.data?.items || [];
-    console.log("user",user)
+    
+    const basketCountt = basketItems.map((item) => {
+        if (item.ageSize === 1) {
+            return 30;
+        } else if (item.ageSize === 2) {
+            return 60;
+        } else {
+            return 0;
+        }
+    });
+    console.log("basketCountt",basketCountt)
 
   let { isMobile } = useResize();
   const toast = useToast()
+
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [isRectVisible, setIsRectVisible] = useState(false);
-  const [isRectVisible2, setIsRectVisible2] = useState(false);
+
+  const dispatchw = useDispatch();
+  useEffect(() => {
+    let user = localStorage.getItem("user_info");
+    if(user){
+        user  = JSON.parse(user);
+        if(user) dispatchw(setUser(user));
+    }
+}, []);
+
   const [checkoutComplete, setCheckoutComplete] = useState(false);
-  const [inputVal, setInputVal] = useState(false)
-  const [inputPhoneNumber, setInputPhoneNumbe] = useState(false)
-  const [phoneNumRegex, setPhoneNumRegex] = useState(false)
-  const [addressValid, setAddressValid] = useState(false);
-  const [userLoaded, setUserLoaded] = useState(false);
+  const [paymentScreen, setPaymentScreen] = useState(false)
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState<number>(4);
   const { push } = useRouter();
   const [downloadURL, setDownloadURL] = useState(''); 
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+    const [isRectVisiblee, setIsRectVisiblee] = useState(false);
+    const [isRectVisiblee2, setIsRectVisiblee2] = useState(false);
+
+
+    const { isRectVisible, isRectVisible2 } = useSelector((state: RootState) => state.buttonVisibility);
 
   const [mobile, setmobile] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const basketCount = basket?.data?.total_count;
+  const basketAmount = basket?.data?.total_amount;
+
+
+  const basketId = basket?.data;
+
+console.log("basketId",basketId);
+
+
+
+    const handleAddFromBasket = (productId: string) => {
+
+        const basketProduct = {
+            user_id: user?.id,
+            product_id: productId,
+            ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
+        };
+
+
+        dispatch(addToBasket(basketProduct)).then((action) => {
+            if (action.type === deleteFromBasket.rejected.type) {
+
+                toast({
+                    title: "Failed to remove product from the basket",
+                    status: 'error',
+                    duration: 2000,
+                    isClosable: true,
+                    position: 'top-right',
+                    variant: 'subtle'
+                });
+
+            } else {
+                dispatch(fetchBasket());
+                toast({
+                    title: "Product added to the basket successfully!",
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true,
+                    position: 'top-right',
+                    variant: 'subtle'
+                });
+            }
+        });
+    };
+
+
+    const handleDeleteFromBasket = (productId: string) => {
+
+        const basketProduct = {
+            user_id: user?.id,
+            product_id: productId,
+            ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
+        };
+
+        dispatch(deleteFromBasket(basketProduct)).then((action) => {
+            if (action.type === deleteFromBasket.rejected.type) {
+                toast({
+                    title: "Failed to remove product from the basket",
+                    status: 'error',
+                    duration: 2000,
+                    isClosable: true,
+                    position: 'top-right',
+                    variant: 'subtle'
+                });
+            } else {
+                dispatch(fetchBasket());
+                toast({
+                    title: "Product removed from the basket successfully!",
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true,
+                    position: 'top-right',
+                    variant: 'subtle'
+                });
+            }
+        });
+    };
+
+
+    useEffect(() => {
+        dispatch(fetchBasket());
+    }, [dispatch]);
 
   const handleChange = (e:any) => {
     const value = e.target.value;
@@ -256,13 +374,13 @@ export default function index() {
 
 
 const handleToggle = () => {
-  setIsRectVisible2(true);
-  setIsRectVisible(false);
+  setIsRectVisiblee2(true);
+  setIsRectVisiblee(false);
 };
 
 const handleToggle2 = () => {
-  setIsRectVisible(true);
-  setIsRectVisible2(false);
+  setIsRectVisiblee(true);
+  setIsRectVisiblee2(false);
 };
 
 
@@ -318,14 +436,25 @@ const handleChange1 = (event:any) => {
     if (token && userInfo) {
       setIsLoggedIn(true);
     }
-   
-
-
- 
   }, [mobile]);
 
 
-  return (
+
+  const handleCheckout = () => {{
+    // user_id: user?.id,
+    // basket_id: basketList.id,
+    // delivery_address: state.address,
+    // contact: state.phoneNumber,
+    // payment_method: isRectVisible ? "2" : "1",
+    // created: Date.now() 
+    setPaymentScreen(true)
+
+}
+};
+
+
+
+    return (
    <>
      <Container>
         <Header>
@@ -357,7 +486,7 @@ const handleChange1 = (event:any) => {
           </div> */}
 
 
-       <div className='flex gap-52 justify-between'>
+       <div className='flex gap-11 justify-between'>
 
 
            <Sidebar>
@@ -402,58 +531,30 @@ const handleChange1 = (event:any) => {
            </Sidebar>
 
 
-           <div className=" bg-cardColor w-5/12 mt-6 mr-5 absolute ml-96">
+           <div className=" bg-cardColor w-5/12  mr-5 absolute ml-96 mt-20">
+
+{/*<WhatsAppButton/>*/}
 
 
-               <div className=' mt-6 ml-6'>
-                   <label className='text-grayText2 font-bold'></label>
-                   <input
-                       type="text"
-                       id="address"
-                       name="address"
-                       value={user.address}
-                       onChange={handleChange}
-                       required
-                       className='w-11/12 h-14 p-5 rounded-md'
-                       placeholder='Ataturk Ganclik Baku 45'
-                   />
-               </div>
-               {state.error && <span className='text-mainRed'>{state.error}</span>}
-               <br/>
-               {state.formatMessage && <span className=' text-green'>{state.formatMessage}</span>}
+<SimpleForm/>
 
-               <label className='text-grayText2 font-bold ml-6'></label>
-               <div className='ml-6'>
-                   <input
-                       type="text"
-                       id="phoneNumber"
-                       name="number"
-                       value={user.phoneNumber}
-                       onChange={handleChange1}
-                       required
-                       className='w-11/12 h-14 p-5 rounded-md'
-                       placeholder='+994'
-                   />
-               </div>
 
-               {state.errorNumber && <span className=' text-mainRed'>{state.errorNumber}</span>}
-               <br/>
-               {state.formatNumber && <span className=' text-green'>{state.formatNumber}</span>}
 
                <h1 className='ml-6 font-bold text-grayText2 '></h1>
 
-               <div className="flex ml-6 mt-4">
+               <div className="flex ml-6 ">
+                
                    <button onClick={handleToggle}>
                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                            <rect x="0.5" y="0.5" width="29" height="29" rx="14.5"
                                  fill="white" stroke="#6FCF97"/>
-                           {isRectVisible2 &&
+                           {isRectVisiblee2 &&
                                <rect x="8" y="8" width="15" height="15" rx="7.5"
                                      fill="#6FCF97"/>}
                        </svg>
                    </button>
-                   <h1 className={`ml-2 ${isRectVisible2 ? 'text-textColorGreen' : ''}`}></h1>
+                   <h1 className={`ml-2 ${isRectVisiblee2 ? 'text-textColorGreen' : ''}`}> Payment by card </h1>
 
 
                    <button className=' ml-16' onClick={handleToggle2}>
@@ -461,45 +562,50 @@ const handleChange1 = (event:any) => {
                             xmlns="http://www.w3.org/2000/svg">
                            <rect x="0.5" y="0.5" width="29" height="29" rx="14.5"
                                  fill="white" stroke="#6FCF97"/>
-                           {isRectVisible &&
+                           {isRectVisiblee &&
                                <rect x="8" y="8" width="15" height="15" rx="7.5"
                                      fill="#6FCF97"/>}
                        </svg>
                    </button>
-                   <h1 className={`ml-2 ${isRectVisible ? 'text-textColorGreen' : ''}`}></h1>
+                   <h1 className={`ml-2 ${isRectVisiblee ? 'text-textColorGreen' : ''}`}>Payment via terminal</h1>
                </div>
+
+
+
+
+
 
                <div className='flex items-center justify-center mt-16'>
 
-                   {/*<button*/}
-                   {/*    className={`w-11/12 h-11 ${(isRectVisible || isRectVisible2) && basketList?.items?.length > 0 && inputVal && inputPhoneNumber && phoneNumRegex && addressValid ? 'bg-textColorGreen' : 'bg-overlayColorGreen'} text-white rounded-sm`}*/}
-                   {/*    onClick={handleCheckout}*/}
-                   {/*    disabled={!((isRectVisible || isRectVisible2) && inputVal && inputPhoneNumber && phoneNumRegex && addressValid && basketList?.items?.length > 0)}*/}
-                   {/*>*/}
-                   {/*    Checkout*/}
-                   {/*</button>*/}
+
+
+
+                   <button
+                      className={`w-11/12 h-11 ${(isRectVisiblee || isRectVisiblee2) && basketId?.items?.length > 0  ? 'bg-textColorGreen' : 'bg-overlayColorGreen'} text-white rounded-sm`}
+                      onClick={handleCheckout}
+                      disabled={!((isRectVisiblee || isRectVisiblee2) && basketId?.items?.length  > 0)}
+                   >
+                      Checkout
+                   </button>
+
                </div>
 
 
            </div>
 
 
-           <div>
-               {basketItems?.map((items, index) => {
+           <ProductPageCount/>
 
-                   return (
-                       <div className=" w-28" key={index}>
-                           <Image src={items?.img_url} alt="img" width={35} height={35}/>
-                       </div>
-                   )
 
-               })}
-           </div>
+     
 
 
        </div>
+       <div>
+            {paymentScreen?<OverlayPayment/>:'' }
+           </div>
 
 
    </>
-  )
+    )
 }

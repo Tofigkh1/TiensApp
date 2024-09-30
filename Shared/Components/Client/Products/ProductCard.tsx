@@ -2,7 +2,7 @@ import styles from './products.module.css';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../../Redux/Store/store';
-import { fetchBasket, addToBasket, deleteFromBasket } from '../../../Redux/Featuries/basketSlice/basketSlice.tsx';
+import { fetchBasket, addToBasket, deleteFromBasket } from '../../../Redux/Featuries/basketSlice/basketSlice.ts';
 import PlusSvg from "../../../../public/plus.png";
 import DeleteSvg from '../../../../public/delete.png';
 import { useToast } from "@chakra-ui/react";

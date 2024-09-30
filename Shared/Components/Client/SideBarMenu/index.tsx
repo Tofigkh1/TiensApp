@@ -14,7 +14,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
   const [expanded, setExpanded] = useState(false); // State to track whether sidebar is expanded or not
 
   return (
-    <aside className="h-screen mt-1 " >
+    <aside className="h-screen " >
       <nav
         className={`h-full flex flex-col bg-white border-r border-whiteLight3 transition-all ml-3 ${
           expanded ? "w-[140%] h-[130%]" : "w-[95px]" // Sidebar expands to 32% width or collapses to 60px

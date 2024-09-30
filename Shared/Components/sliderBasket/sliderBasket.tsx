@@ -12,7 +12,7 @@ import DeleteSvg from '../../../../public/delete.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../Redux/Store/store';
 import { GetBasket } from '../../../Services';
-import { fetchBasket, deleteFromBasket, addToBasket, deleteAllBasket } from '../../Redux/Featuries/basketSlice/basketSlice.tsx';
+import { fetchBasket, deleteFromBasket, addToBasket, deleteAllBasket } from '../../Redux/Featuries/basketSlice/basketSlice';
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from 'next/router';
 import ProductsCard from '../Client/Products/ProductCard';
@@ -75,7 +75,7 @@ const BasketMenu = () => {
     }, 100);
 
     return () => clearInterval(intervalId);
-  }, [basketId]);
+  }, []);
 
   useEffect(() => {
   
@@ -110,7 +110,7 @@ const BasketMenu = () => {
   useEffect(() => {
     const imgUrls = basketItems.map((item: any) => item.img_url);
     setImageUrl(imgUrls);
-  }, [basketItems]);
+  }, []);
 
   const handleToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

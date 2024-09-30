@@ -133,8 +133,6 @@ function Profile() {
   const user = useSelector((state: RootState) => state.user);
 
 
-
-
   useEffect(() => {
   
 
@@ -154,11 +152,11 @@ function Profile() {
     if (token && userInfo) {
       setIsLoggedIn(true);
     }
-   
-
-
- 
   }, [mobile]);
+
+
+  
+  // let IMG=img[0]?.data_url
 
 
 
@@ -189,6 +187,8 @@ function Profile() {
   if (!isLoggedIn) {
     return null;
   }
+
+;
   return (
     <>
       <Container>
@@ -302,7 +302,7 @@ function Profile() {
                 />
           
                 <div className=" right-0 z-30 mt-72 mr-7 absolute">
-                      <UploadImage setImageList={setIMG} IMG={IMG[0]?.data_url} uerPage={true} />
+                      <UploadImage  setImageList={setIMG} IMG={IMG[0]?.data_url} uerPage={true} />
                 </div>
               </div>
             ) : (

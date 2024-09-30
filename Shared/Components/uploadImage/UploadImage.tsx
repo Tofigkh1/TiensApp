@@ -61,6 +61,7 @@ export default function UploadImage({ setImageList, IMG = undefined, uerPage = f
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="data_url"
+            
         >
             {({
                   imageList,
