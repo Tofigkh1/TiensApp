@@ -12,7 +12,7 @@ const simpleBasketSlice = createSlice({
     initialState: {
         data: {},
         status: 'idle',
-        error: null,
+        error: null as string | null, 
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -26,7 +26,7 @@ const simpleBasketSlice = createSlice({
             })
             .addCase(fetchSimpleBasket.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message;
+                state.error = action.error.message ?? null;
             });
     },
 });

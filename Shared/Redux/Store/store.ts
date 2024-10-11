@@ -6,7 +6,7 @@ import productsReducer from '../Featuries/products/productSlice'
 import basketReducer from '../Featuries/basketSlice/basketSlice'
 import simpleBasketReducer from '../Featuries/basket/basketSlice'
 import buttonVisibilityReducer from '../Featuries/ageSize/ageSize';
-import orderReducer from '../Featuries/orderSlice/orderSlice';
+// import orderReducer from '../Featuries/orderSlice/orderSlice';
 
 
 const makeStore = () =>
@@ -18,7 +18,7 @@ const makeStore = () =>
             basket: basketReducer,
             simpleBasket:simpleBasketReducer,
             buttonVisibility: buttonVisibilityReducer,
-            order: orderReducer,
+            // order: orderReducer,
         },
         middleware(getDefaultMiddleware) {
             return getDefaultMiddleware().concat(

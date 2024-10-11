@@ -18,6 +18,7 @@ import { AppDispatch } from "../../../Redux/Store/store";
 import shoppingBag from '../../../../public/shopping-bag.png'
 import ShoppingCheck from '../../../../public/ShoppingCheck3.png'
 import YourOrders from '../../../../public/fulfillment.png'
+import { UserAuth } from "../../../Context";
 
 interface PROPS{
     active:number
@@ -27,16 +28,17 @@ function Navbar(props:PROPS) {
     const {push, pathname} = useRouter();
 
     const dispatch: AppDispatch = useDispatch();
+    const { logOut } = UserAuth() || {};
 
-
-    const handleSignOut = async() => {
-        try{
-            await logOut()
+    const handleSignOut = async () => {
+        try {
+            if (logOut) {
+                await logOut();
+            }
         } catch (error) {
             console.log(error);
-            
         }
-    }
+    };
 
 
     let {active} = props

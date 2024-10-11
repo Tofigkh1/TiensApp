@@ -65,11 +65,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
   '@keyframes ripple': {
     '0%': {
-      transform: scale(.8),
+      transform: 'scale(0.8)',
       opacity: 1,
     },
     '100%': {
-      transform: scale(2.4),
+      transform: 'scale(2.4)',
       opacity: 0,
     },
   },
@@ -153,9 +153,9 @@ useEffect(() => {
   };
 
 
-  const handleCategoryHover = (categoryId: string | null, categoryName: string | null) => {
+  const handleCategoryHover = (categoryId: string) => {
     setHoveredCategory(categoryId);
-    setChooseCategory(categoryName);
+
     onClose(); 
   };
 
@@ -169,9 +169,9 @@ useEffect(() => {
   };
 
 
-  function onDetail(id: number) {
-    router.push('medicines/' + id);
-  }
+  // function onDetail(id: number) {
+  //   router.push('medicines/' + id);
+  // }
 
   const handlePrint = () => {
     window.print();
@@ -273,7 +273,7 @@ onMouseLeave={handleMouseLeave}
     alt={product?.name}
     width={55}
     height={55}
-    borderRadius="full"
+  
   />
   <Text fontSize="sm" >{product.name}</Text>
 </Box>

@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
 // Axios instance oluştur
 export const instanceAxios: AxiosInstance = axios.create({
@@ -10,7 +10,7 @@ export const instanceAxios: AxiosInstance = axios.create({
 
 // Request interceptor: Access token'ı isteklere otomatik ekle
 instanceAxios.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     const accessToken = localStorage.getItem("access_token");
     if (accessToken && config.headers) {
       config.headers.Authorization = `Bearer ${accessToken}`;
@@ -28,7 +28,7 @@ instanceAxios.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
-    const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
     // 401 Unauthorized hatası kontrolü
     if (error.response?.status === 401 && !originalRequest._retry) {

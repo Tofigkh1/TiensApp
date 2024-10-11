@@ -44,7 +44,8 @@ export default function ProductCard(products: ProductsCardProps) {
            <div className={styles.card} onClick={onReadMore}>
     <div className={styles.card_top}>
         <img src={products?.img_url ?? '/imgs/no-photo.avif'} alt={products.name}
-             className='w-[175px] h-[175px] object-cover'/>
+       
+             className={`${styles.productImage} w-[190px] h-[190px] object-cover`}/>
         {isNew && <span className={styles.new_restaurant}>New</span>}
     </div>
 
@@ -52,7 +53,7 @@ export default function ProductCard(products: ProductsCardProps) {
         <h4>{shortText(products.name, 12)}</h4>
         <p>{shortText(products.description, 20)}</p>
         <div className={styles.restaurant_bottom}>
-            <span className={styles.gold_text}>{`${products.price}₼ `}</span>
+            <div className=' font-semibold text-xl'>{`${products.price}₼ `}</div>
             <p>{timeAgo}</p>
         </div>
     </div>

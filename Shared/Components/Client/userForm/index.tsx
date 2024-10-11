@@ -9,7 +9,7 @@ import { PutAuthUserr } from '../../../../Services/index';
 import Spiner from '../../../Components/Client/Spiner/index';
 import { useToast } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from "../../../Redux/Featuries/User/userSlice";
+import { setUser, UserState } from "../../../Redux/Featuries/User/userSlice";
 
 interface FormValues {
     phoneNumber: string;
@@ -77,10 +77,15 @@ const UserForm: React.FC<Props> = (props: Props) => {
     }, [dispatch]);
 
     useEffect(() => {
-        let user = localStorage.getItem("user_info");
-        if (user) {
-            user = JSON.parse(user);
-            if (user) dispatch(setUser(user));
+        const userStr = localStorage.getItem("user_info");
+        if (userStr) {
+            try {
+                const user: UserState = JSON.parse(userStr);
+                dispatch(setUser(user));
+            } catch (error) {
+                console.error("Kullanıcı bilgisi parse edilirken hata oluştu:", error);
+      
+            }
         }
     }, [dispatch]);
 
@@ -137,8 +142,9 @@ console.log("values", values);
             setlogoding(false);
         } catch (err) {
             console.error(err);
+            const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
             toast({
-                title: `Error: ${err.message}`,
+                title: `Error: ${errorMessage}`,
                 status: 'error',
                 duration: 2000,
                 isClosable: true,

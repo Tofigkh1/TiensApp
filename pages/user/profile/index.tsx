@@ -26,6 +26,7 @@ import BasketMenu from '../../../Shared/Components/sliderBasket/sliderBasket';
 import { Box, Tag, VStack, SimpleGrid, Flex, Text } from "@chakra-ui/react";
 import Categories from '../../../Shared/Components/Client/headerCategory';
 import Sidebar, { SidebarItem } from '../../../Shared/Components/Client/SideBarMenu';
+import { clearUser } from '../../../Shared/Redux/Featuries/User/userSlice';
 
 
 
@@ -117,13 +118,16 @@ const LargeAvatar = styled(Avatar)({
   height: 100,
 });
 
+interface ImageType {
+  data_url: any;
+}
 
 
-
-function Profile() {
+const Profile: React.FC = ()=> {
+  
   const [activeIndex, setActiveIndex] = useState<number>(4);
-  const { push } = useRouter();
-  const [IMG, setIMG] = useState([]);
+ 
+  const [IMG, setIMG] = useState<ImageType[]>([]);
   const [downloadURL, setDownloadURL] = useState(''); 
   const [loading, setLoading] = useState(false); 
 
@@ -131,7 +135,7 @@ function Profile() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-
+  const { pathname, push } = useRouter();
 
   useEffect(() => {
   
@@ -183,7 +187,14 @@ function Profile() {
   }, [IMG]);
 
   
+  const handleSignOut = () => {
+    push('/');
+    localStorage.removeItem('user_info');
+    localStorage.removeItem('access_token');
+    dispatch(clearUser());
+  };
 
+  
   if (!isLoggedIn) {
     return null;
   }
@@ -227,46 +238,44 @@ function Profile() {
 
        <div className=''>
      
-<Sidebar>
-        <SidebarItem
-          icon={<img src="/userProfileIcon.svg" alt="Profile" width={35} height={35} />}
-          text="Your Profile"
-          active={activeIndex === 1}
-          onClick={()=>push('/user/profile')}
-        />
-        <SidebarItem
-          icon={<img src="/shopping-bag.png" alt="Basket" width={35} height={35} />}
-          text="Your Basket"
-          active={activeIndex === 2}
-          onClick={()=>push('/user/basket')}
-        />
-        <SidebarItem
-          icon={<img src="/fulfillment.png" alt="Orders" width={35} height={35} />}
-          text="Your Orders"
-          active={activeIndex === 3}
-          onClick={()=>push('/user/orders')}
-        />
-        <SidebarItem
-          icon={<img src="/ShoppingCheck3.png" alt="Checkout" width={35} height={35} />}
-          text="Checkout"
-          active={activeIndex === 4}
-          onClick={()=>push('/user/checkout')}
-        />
-        <SidebarItem
-          icon={<img src="/exit.png" alt="Logout" width={35} height={35} />}
-          text="Logout"
-          active={activeIndex === 5}
-          onClick={()=>{
-            push('/')
-            localStorage.removeItem("user_info")
-            localStorage.removeItem("access_token")
-            handleSignOut()
-            setUser(null);
-            dispatch(clearUser());
-          
-        }}
-        />
-      </Sidebar>
+    <Sidebar>
+      <SidebarItem
+        icon={<img src="/userProfileIcon.svg" alt="Profile" width={35} height={35} />}
+        text="Your Profile"
+        active={pathname === '/user/profile'} // Aktif sayfa kontrolü
+        onClick={() => push('/user/profile')}
+        style={pathname === '/user/profile' ? { color: 'green' } : {}} // Aktifse yeşil yap
+      />
+      <SidebarItem
+      
+        icon={<img src="/shopping-bag.png" alt="Basket" width={35} height={35} />}
+        text="Your Basket"
+        active={pathname === '/user/basket'}
+        onClick={() => push('/user/basket')}
+        style={pathname === '/user/basket' ? { color: 'green' } : {}}
+      />
+      <SidebarItem
+        icon={<img src="/fulfillment.png" alt="Orders" width={35} height={35} />}
+        text="Your Orders"
+        active={pathname === '/user/orders'}
+        onClick={() => push('/user/orders')}
+        style={pathname === '/user/orders' ? { color: 'green' } : {}}
+      />
+      <SidebarItem
+        icon={<img src="/ShoppingCheck3.png" alt="Checkout" width={35} height={35} />}
+        text="Checkout"
+        active={pathname === '/user/checkout'}
+        onClick={() => push('/user/checkout')}
+        style={pathname === '/user/checkout' ? { color: 'green' } : {}}
+      />
+      <SidebarItem
+        icon={<img src="/exit.png" alt="Logout" width={35} height={35} />}
+        text="Logout"
+        active={pathname === '/'}
+        onClick={handleSignOut}
+        style={pathname === '/' ? { color: 'green' } : {}}
+      />
+    </Sidebar>
 
       </div>   
 
@@ -277,7 +286,7 @@ function Profile() {
           <div className=" w-9/12 h-60 mt rounded-2xl mr-5 absolute right-0">
 
           <div className=' flex gap-3 mt-8'>
-          <h1 className=' font-bold text-2xl'>Profile ></h1>
+          <h1 className=' font-bold text-2xl'>Profile &gt;</h1>
           <h1 className='  text-fontcolorhow text-2xl'>Dashboard</h1>
           </div>
          
@@ -302,7 +311,7 @@ function Profile() {
                 />
           
                 <div className=" right-0 z-30 mt-72 mr-7 absolute">
-                      <UploadImage  setImageList={setIMG} IMG={IMG[0]?.data_url} uerPage={true} />
+                      <UploadImage  setImageList={setIMG}  IMG={IMG[0]?.data_url || undefined} userPage={true} />
                 </div>
               </div>
             ) : (

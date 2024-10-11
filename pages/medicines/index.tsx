@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Box, Tag, VStack, SimpleGrid, Flex, Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../Shared/Redux/Featuries/User/userSlice";
+import { setUser, UserState } from "../../Shared/Redux/Featuries/User/userSlice";
 import loadingMedicalGif from '../../public/loadingMedical.gif';
 import styled from "styled-components";
 import { createTheme } from "@mui/material";
@@ -26,7 +26,7 @@ import dynamic from "next/dynamic";
 import { DotLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import BasketMenu from "../../Shared/Components/sliderBasket/sliderBasket";
-import { RootState } from "../../Shared/Redux/Store/store";
+import { AppDispatch, RootState } from "../../Shared/Redux/Store/store";
 
 const ProductCard = dynamic(() => import('../../Shared/Components/Client/productsCard/products'), {
   loading: () => <p>Loading...</p>,
@@ -64,6 +64,7 @@ const Curve = styled.div`
 `;
 
 const theme = createTheme();
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     width: '16px',
@@ -86,11 +87,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
   '@keyframes ripple': {
     '0%': {
-      transform: scale(.8),
+      transform: 'scale(0.8)',
       opacity: 1,
     },
     '100%': {
-      transform: scale(2.4),
+      transform: 'scale(2.4)',
       opacity: 0,
     },
   },
@@ -103,7 +104,7 @@ const StyledBadge2 = styled(Badge)`
   }
   @keyframes ripple {
     0% {
-      transform: scale(.8);
+      transform: scale(0.8);
       opacity: 1;
     }
     100% {
@@ -129,8 +130,8 @@ const StyledSwiperSlide = styled(SwiperSlide)`
 const MotionVStack = motion(VStack); 
 
 function Medicines() {
-  const [categories, setCategories] = useState<any[] | undefined>([]);
-  const [products, setProducts] = useState<any[] | undefined>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [chooseCategory, setChooseCategory] = useState<string | null>(null);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -140,10 +141,10 @@ function Medicines() {
   const [isOpenn, setIsOpen] = useState(false);
   const { push } = useRouter();
   const router = useRouter();
-  const dispatch = useDispatch();
+
   const [accessToken, setAccessToken] = useState<string | null>(null);
   let user = useSelector((state: RootState) => state.user);
-
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem('user_info');
@@ -151,11 +152,16 @@ function Medicines() {
 }, [user]);
 
   useEffect(() => {
-    let user = localStorage.getItem("user_info");
-    if (user) {
-      user = JSON.parse(user);
-      if (user) dispatch(setUser(user));
-    }
+    let userStr = localStorage.getItem("user_info");
+    if (userStr) {
+      try {
+          const user: UserState = JSON.parse(userStr);
+          dispatch(setUser(user));
+      } catch (error) {
+          console.error("Kullanıcı bilgisi parse edilirken hata oluştu:", error);
+
+      }
+  }
   }, [dispatch]);
 
   useEffect(() => {
@@ -200,9 +206,9 @@ function Medicines() {
     setHoveredCategory(null); 
   };
 
-  function onDetail(id: number) {
-    router.push('medicines/' + id);
-  }
+  // function onDetail(id: number) {
+  //   router.push('medicines/' + id);
+  // }
 
   const handlePrint = () => {
     window.print();
@@ -214,9 +220,9 @@ function Medicines() {
 
 
 
-  const handleCategoryHover = (categoryId: string | null, categoryName: string | null) => {
+  const handleCategoryHover = (categoryId: string | null) => {
     setHoveredCategory(categoryId);
-    setChooseCategory(categoryName);
+
     onClose(); 
   };
 
@@ -346,7 +352,7 @@ function Medicines() {
                 alt={product?.name}
                 width={55}
                 height={55}
-                borderRadius="full"
+      
               />
               <Text fontSize="sm" >{product.name}</Text>
             </Box>
@@ -360,33 +366,34 @@ function Medicines() {
             
           </Box>
 
-          <div className="flex flex-row flex-wrap justify-center">
+          <div className="flex  justify-center">
             {chooseCategory ? (
-              getProductsByCategory(chooseCategory).length > 0 ? (
-                <div className="w-80 h-auto m-4 rounded-2xl border border-whiteLight3">
-                  <Swiper spaceBetween={50} slidesPerView={1} className="mySwiper">
-                    {getProductsByCategory(chooseCategory).map((product: any) => (
-                      <StyledSwiperSlide key={product.id}>
-                        <ProductCard {...product} onReadMore={() => onDetail(product.id)} />
-                      </StyledSwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
+                 getProductsByCategory(chooseCategory).length > 0 ? (
+                  <div className="w-full h-auto m-4 rounded-2xl ">
+                    <div className="flex flex-wrap gap-16 ">
+                      {getProductsByCategory(chooseCategory).map((product: any) => (
+                        <div key={product.id} className="border border-whiteLight3 rounded-xl ">
+                          <ProductCard {...product} onReadMore={() => onDetail(product.id)} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
               ) : (
                 <p className="text-center mt-4">Bu kategoride ürün bulunmamaktadır.</p>
               )
             ) : (
               categories?.map((category) => (
-                <div key={category.id} className="w-80 h-auto m-4 rounded-2xl border border-whiteLight3">
-                  <h2 className="text-center text-xl font-bold "></h2>
-                  <Swiper spaceBetween={50} slidesPerView={1} className="mySwiper cursor-pointer">
-                    {getProductsByCategory(category.id).map((product: any) => (
-                      <StyledSwiperSlide key={product.id}>
-                        <ProductCard {...product} onReadMore={() => onDetail(product.id)} />
-                      </StyledSwiperSlide>
-                    ))}
-                  </Swiper>
+                <div key={category.id} className="w-full h-auto m-4  ">
+          
+              
+                <div className="flex flex-wrap gap-16 ">
+                  {getProductsByCategory(category.id).map((product: any) => (
+                    <div key={product.id} className="  border border-whiteLight3 rounded-xl">
+                      <ProductCard {...product} onReadMore={() => onDetail(product.id)} />
+                    </div>
+                  ))}
                 </div>
+              </div>
               ))
             )}
           </div>

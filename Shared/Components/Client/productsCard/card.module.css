@@ -85,6 +85,15 @@ border-radius: 30px;
     border-radius: 4px;
 }
 
+.productImage {
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .productImage:hover {
+    transform: scale(1.2);
+  }
+
 .gold_text {
     color: gold;
     font-weight: bold; /* İsteğe bağlı: Metni kalın yapmak için */

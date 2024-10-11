@@ -24,7 +24,7 @@ import basketDef from '../../../public/basketDef.png'
 import profileSettings from '../../../public/profileSettings.png'
 import orderSvg from '../../../public/order.png'
 import userProfileDef from '../../../public/user.png'
-import { AuthContext, AuthContextProvider } from '../../../Shared/Context';
+
 import shoppingBag from '../../../public/shopping-bag.png'
 import ShoppingCheck from '../../../public/ShoppingCheck3.png'
 import YourOrders from '../../../public/fulfillment.png'
@@ -32,25 +32,26 @@ import { LifeBuoy, Receipt, Boxes, Package, UserCircle,BarChart3, LayoutDashboar
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import Sidebar, { SidebarItem } from '../../../Shared/Components/Client/SideBarMenu';
 import { AppDispatch, RootState } from '../../../Shared/Redux/Store/store';
-import { clearUser, setUser } from '../../../Shared/Redux/Featuries/User/userSlice';
+import { clearUser, setUser, UserState } from '../../../Shared/Redux/Featuries/User/userSlice';
 import { useResize } from '../../../Shared/Hooks/useResize';
 import { useToast } from '@chakra-ui/react';
 import Image from "next/image";
-import { sendOrder, resetOrderState } from '../../../Shared/Redux/Store/store'
+
 import WhatsAppButton from "../../../Shared/Components/Client/whatsappButton";
 import TelegramButton from "../../../Shared/Components/Client/telegramButton";
 import minus from "../../../public/minus-circle.png";
 import plus from "../../../public/plus (3).png";
-import {addToBasket, deleteFromBasket, fetchBasket} from "../../../Shared/Redux/Featuries/basketSlice/basketSlice";
+import {addToBasket, BasketItem, deleteFromBasket, fetchBasket} from "../../../Shared/Redux/Featuries/basketSlice/basketSlice";
 import ProductPageCount from '../../../Shared/Components/Client/productPageCount';
 import SimpleForm from '../../../Shared/Components/Client/CheckoutForm';
 import OverlayPayment from '../../../Shared/Components/Client/OverlayPaymentScreen';
 import { OrderPostDataType } from '../../../Shared/Interface';
+import { UserAuth } from '../../../Shared/Context';
 
 
 
 
-const SidebarContext = createContext();
+const SidebarContext = createContext(null);
 
 // Styled Components
 const Container = styleds.div`
@@ -219,23 +220,40 @@ const formatPhoneNumber = (value:any) => {
 };
 
 
+type Basket = {
+  data: {
+    items: Array<{
+      id: number | string;
+      name: string;
+      ageSize?: string;
+      price: number;
+    }>;
+    total_count: number;
+    total_amount: number;
+  };
+};
+
+
 export default function index() {
     // const { loading, success, error } = useSelector((state) => state.order);
 
     const dispatchh: AppDispatch = useDispatch();
 
-    const basket = useSelector((state: RootState) => state.basket);
+    const basket:Basket = useSelector((state: RootState) => state.basket);
 
   const user = useSelector((state: RootState) => state.user);
+console.log("basket",basket);
 
 
 
     const basketItems = basket?.data?.items || [];
     
     const basketCountt = basketItems.map((item) => {
-        if (item.ageSize === 1) {
+      console.log("itemler",item);
+      
+        if (item.ageSize === "1") {
             return 30;
-        } else if (item.ageSize === 2) {
+        } else if (item.ageSize === "2") {
             return 60;
         } else {
             return 0;
@@ -248,13 +266,19 @@ export default function index() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const dispatchw = useDispatch();
+  const dispatchw: AppDispatch = useDispatch();
+
   useEffect(() => {
-    let user = localStorage.getItem("user_info");
-    if(user){
-        user  = JSON.parse(user);
-        if(user) dispatchw(setUser(user));
-    }
+    let userStr = localStorage.getItem("user_info");
+    if (userStr) {
+      try {
+          const user: UserState = JSON.parse(userStr);
+          dispatchw(setUser(user));
+      } catch (error) {
+          console.error("Kullanıcı bilgisi parse edilirken hata oluştu:", error);
+
+      }
+  }
 }, []);
 
   const [checkoutComplete, setCheckoutComplete] = useState(false);
@@ -273,7 +297,7 @@ export default function index() {
   const [mobile, setmobile] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const basketCount = basket?.data?.total_count;
+  const basketCount = basket?.data?.total_count; 
   const basketAmount = basket?.data?.total_amount;
 
 
@@ -283,73 +307,73 @@ console.log("basketId",basketId);
 
 
 
-    const handleAddFromBasket = (productId: string) => {
+    // const handleAddFromBasket = (productId: string) => {
 
-        const basketProduct = {
-            user_id: user?.id,
-            product_id: productId,
-            ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
-        };
-
-
-        dispatch(addToBasket(basketProduct)).then((action) => {
-            if (action.type === deleteFromBasket.rejected.type) {
-
-                toast({
-                    title: "Failed to remove product from the basket",
-                    status: 'error',
-                    duration: 2000,
-                    isClosable: true,
-                    position: 'top-right',
-                    variant: 'subtle'
-                });
-
-            } else {
-                dispatch(fetchBasket());
-                toast({
-                    title: "Product added to the basket successfully!",
-                    status: 'success',
-                    duration: 2000,
-                    isClosable: true,
-                    position: 'top-right',
-                    variant: 'subtle'
-                });
-            }
-        });
-    };
+    //     const basketProduct = {
+    //         user_id: user?.id,
+    //         product_id: productId,
+    //         ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
+    //     };
 
 
-    const handleDeleteFromBasket = (productId: string) => {
+    //     dispatch(addToBasket(basketProduct)).then((action) => {
+    //         if (action.type === deleteFromBasket.rejected.type) {
 
-        const basketProduct = {
-            user_id: user?.id,
-            product_id: productId,
-            ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
-        };
+    //             toast({
+    //                 title: "Failed to remove product from the basket",
+    //                 status: 'error',
+    //                 duration: 2000,
+    //                 isClosable: true,
+    //                 position: 'top-right',
+    //                 variant: 'subtle'
+    //             });
 
-        dispatch(deleteFromBasket(basketProduct)).then((action) => {
-            if (action.type === deleteFromBasket.rejected.type) {
-                toast({
-                    title: "Failed to remove product from the basket",
-                    status: 'error',
-                    duration: 2000,
-                    isClosable: true,
-                    position: 'top-right',
-                    variant: 'subtle'
-                });
-            } else {
-                dispatch(fetchBasket());
-                toast({
-                    title: "Product removed from the basket successfully!",
-                    status: 'success',
-                    duration: 2000,
-                    isClosable: true,
-                    position: 'top-right',
-                    variant: 'subtle'
-                });
-            }
-        });
-    };
+    //         } else {
+    //             dispatch(fetchBasket());
+    //             toast({
+    //                 title: "Product added to the basket successfully!",
+    //                 status: 'success',
+    //                 duration: 2000,
+    //                 isClosable: true,
+    //                 position: 'top-right',
+    //                 variant: 'subtle'
+    //             });
+    //         }
+    //     });
+    // };
+
+
+    // const handleDeleteFromBasket = (productId: string) => {
+
+    //     const basketProduct = {
+    //         user_id: user?.id,
+    //         product_id: productId,
+    //         ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
+    //     };
+
+    //     dispatch(deleteFromBasket(basketProduct)).then((action) => {
+    //         if (action.type === deleteFromBasket.rejected.type) {
+    //             toast({
+    //                 title: "Failed to remove product from the basket",
+    //                 status: 'error',
+    //                 duration: 2000,
+    //                 isClosable: true,
+    //                 position: 'top-right',
+    //                 variant: 'subtle'
+    //             });
+    //         } else {
+    //             dispatch(fetchBasket());
+    //             toast({
+    //                 title: "Product removed from the basket successfully!",
+    //                 status: 'success',
+    //                 duration: 2000,
+    //                 isClosable: true,
+    //                 position: 'top-right',
+    //                 variant: 'subtle'
+    //             });
+    //         }
+    //     });
+    // };
 
 
     useEffect(() => {
@@ -404,17 +428,21 @@ const handleChange1 = (event:any) => {
     }
 };
 
+const authContext = UserAuth();
+const logOut = authContext?.logOut;
 
-  const handleSignout = async()=> {
-    try{
-      await logOut()
-      console.log("logut check...");
-      
-    } catch(error) {
-      console.log(error);
-      
+const handleSignout = async () => {
+  try {
+    if (logOut) {
+      await logOut();
+      console.log("Logout successful...");
+    } else {
+      console.error("logOut function is undefined");
     }
+  } catch (error) {
+    console.error(error);
   }
+};
 
 
   useEffect(() => {

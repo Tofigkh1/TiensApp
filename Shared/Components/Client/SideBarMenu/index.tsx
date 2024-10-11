@@ -50,19 +50,21 @@ export default function Sidebar({ children }: { children: ReactNode }) {
 
 // SidebarItem component for individual items inside the sidebar
 type SidebarItemProps = {
-  icon: ReactNode;   // Icon to display in the sidebar item
-  text: string;      // Text to display in the sidebar item
-  active: boolean;   // Boolean to determine if the item is active (highlighted)
-  onClick: () => void; // Add onClick function to handle clicks
+  icon: ReactNode;          // Icon to display in the sidebar item
+  text: string;             // Text to display in the sidebar item
+  active: boolean;          // Boolean to determine if the item is active (highlighted)
+  onClick: () => void;      // Add onClick function to handle clicks
+  style?: React.CSSProperties; // Optional style prop for custom styles
 };
 
-export function SidebarItem({ icon, text, active, onClick }: SidebarItemProps) {
+export function SidebarItem({ icon, text, active, onClick, style }: SidebarItemProps) {
   const context = useContext(SidebarContext); // Sidebar context to manage expanded/collapsed state
   const { expanded } = context!;
 
   return (
     <li
       onClick={onClick} // Attach the click handler here
+      style={style}      // Apply custom style
       className={`group relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors mt-8
           ${
         active
@@ -71,13 +73,13 @@ export function SidebarItem({ icon, text, active, onClick }: SidebarItemProps) {
       }`}
     >
       {/* Icon büyütüldü */}
-      <span className="text-xl ">
+      <span className="text-xl">
         {icon}
       </span>
 
       {/* Text büyütüldü ve boşluk artırıldı */}
       {expanded && (
-        <span className="ml-4 text-xl text-black transition-all duration-200 ">
+        <span className="ml-4 text-xl text-black transition-all duration-200">
           {text}
         </span>
       )}
@@ -85,7 +87,7 @@ export function SidebarItem({ icon, text, active, onClick }: SidebarItemProps) {
       {/* Navbar kapalıyken hover ile çıkan isimler için arka plan yeşil yapıldı */}
       {!expanded && (
         <span
-          className={` absolute left-full whitespace-nowrap bg-textColorGreen text-black rounded-md py-1 px-2 transition-all duration-200 ml-2 opacity-0 group-hover:opacity-100`}
+          className={`absolute left-full whitespace-nowrap bg-textColorGreen text-black rounded-md py-1 px-2 transition-all duration-200 ml-2 opacity-0 group-hover:opacity-100`}
         >
           {text}
         </span>

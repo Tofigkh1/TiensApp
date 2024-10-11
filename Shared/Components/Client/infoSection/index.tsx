@@ -7,8 +7,11 @@ import 'aos/dist/aos.css';
 interface Props {
     data: any,
     TITLE: string,
-    DES: string
+    DES: string,
+    ProductID: string
 }
+
+
 
 function InfoSection(props: Props) {
     const [animationPlayed, setAnimationPlayed] = useState(false);
@@ -27,7 +30,8 @@ function InfoSection(props: Props) {
     let {
         data,
         TITLE,
-        DES
+        DES,
+        ProductID
     } = props;
 
     const { Title, des, div } = styles;
@@ -41,7 +45,12 @@ function InfoSection(props: Props) {
             <h2 className={Title} data-aos='fade-up'>{TITLE}</h2>
             <p className={des} data-aos='fade-up'>{DES}</p>
             <div className='' data-aos='fade-up'>
-                <InfoBox />
+            <InfoBox 
+                    img={data[0]?.img || ''} 
+                    Title={TITLE} 
+                    Desc={DES} 
+                    ProductID={ProductID} 
+                />
             </div>
 
             <div>

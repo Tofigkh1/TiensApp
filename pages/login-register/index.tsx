@@ -5,13 +5,15 @@ import registerIcon from '../../public/TiensRegister.png';
 import SignInForm from '../../Shared/Components/Client/login-register/loginForm/index';
 import RegisterForm from '../../Shared/Components/Client/login-register/RegisterForm/index';
 import { useRouter } from "next/router";
-import loginIcon from '../../public/TiensAccount.png'
+import loginIcon from '../../public/TiensAccount.png';
 
 function LoginRegister() {
   const [singin, setSingin] = useState(false);
   const [mobile, setMobile] = useState(false);
   const router = useRouter();
-  const { email } = router.query; 
+  const { email } = router.query;
+
+  const initialEmail = Array.isArray(email) ? email[0] : email;
 
   useEffect(() => {
     if (window.innerWidth < 800) {
@@ -46,7 +48,7 @@ function LoginRegister() {
         </header>
 
         <div className={mobile ? ' flex flex-col gap-3 ' : ' flex flex-row gap-3 '}>
-        <div className={mobile ? style.blackbg + ' flex justify-center items-center mt-5 rounded-md ' : style.blackbg + ' flex w-3/5 justify-center items-center mt-5 rounded-md ' }>
+          <div className={mobile ? style.blackbg + ' flex justify-center items-center mt-5 rounded-md ' : style.blackbg + ' flex w-3/5 justify-center items-center mt-5 rounded-md ' }>
             {singin
               ? <Image src={loginIcon} alt='Image' className={style.loginIcon} width={700} height={100} />
               : <Image src={registerIcon} alt='Image' width={500} height={728} />}
@@ -57,7 +59,7 @@ function LoginRegister() {
               <button className={!singin ? style.headerTextActive : style.headerTextDeActive} onClick={() => setSingin(false)}>Login</button>
               <button className={singin ? style.headerTextActive : style.headerTextDeActive} onClick={() => setSingin(true)}>Register</button>
             </div>
-            {singin ? <RegisterForm setsingin={() => setSingin(true)} initialEmail={email} /> : <SignInForm />}
+            {singin ? <RegisterForm setsingin={() => setSingin(true)} initialEmail={initialEmail} /> : <SignInForm />}
           </div>
         </div>
       </div>

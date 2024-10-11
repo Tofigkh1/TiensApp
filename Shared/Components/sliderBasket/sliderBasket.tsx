@@ -10,15 +10,16 @@ import trash from '../../../public/trash-bin.png';
 import miniBasket from '../../../public/cart.png';
 import DeleteSvg from '../../../../public/delete.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../Redux/Store/store';
+import { AppDispatch, RootState } from '../../Redux/Store/store';
 import { GetBasket } from '../../../Services';
 import { fetchBasket, deleteFromBasket, addToBasket, deleteAllBasket } from '../../Redux/Featuries/basketSlice/basketSlice';
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from 'next/router';
 import ProductsCard from '../Client/Products/ProductCard';
+import { BasketPostDataType } from '../../Interface';
 
 const BasketMenu = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
   const basket = useSelector((state: RootState) => state.basket);
   const user = useSelector((state: RootState) => state.user);
@@ -123,11 +124,24 @@ const BasketMenu = () => {
   };
 
   const handleAddFromBasket = (productId: string) => {
-
-    const basketProduct = {
-      user_id: user?.id,
+    const basketProduct: BasketPostDataType = {
+      user_id: user?.id!,
       product_id: productId,
       ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
+      cover_url: "",  // Resim URL'sini buraya ekleyebilirsin
+      created: Date.now(),    // Oluşturulma zamanı (şu anki zaman)
+      amount: 1,              // Ürünün miktarı (örneğin, 1 olarak belirlenmiş)
+      description: "", // Ürün açıklaması
+      rest_id: "",      // Restoran ID'si veya benzer alan
+      category_id: "", // Kategori ID'si
+      allDescription: "", // Tüm açıklama
+      img_url: "",    // Ürünün resim URL'si
+      price: 0,             // Ürünün fiyatı
+      name: "",   // Ürün ismi
+      count: 1,               // Ürün adedi
+      total_count: basket?.data?.total_count,  // Sepetteki toplam ürün sayısı
+      total_item: basket?.data?.total_item,    // Sepetteki toplam ürün adedi
+      total_amount: basket?.data?.total_amount // Sepetteki toplam miktar
     };
 
 
@@ -157,10 +171,24 @@ const BasketMenu = () => {
 
   const handleDeleteFromBasket = (productId: string) => {
 
-    const basketProduct = {
-      user_id: user?.id,
+    const basketProduct: BasketPostDataType = {
+      user_id: user?.id!,
       product_id: productId,
       ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
+      cover_url: "",  // Resim URL'sini buraya ekleyebilirsin
+      created: Date.now(),    // Oluşturulma zamanı (şu anki zaman)
+      amount: 1,              // Ürünün miktarı (örneğin, 1 olarak belirlenmiş)
+      description: "", // Ürün açıklaması
+      rest_id: "",      // Restoran ID'si veya benzer alan
+      category_id: "", // Kategori ID'si
+      allDescription: "", // Tüm açıklama
+      img_url: "",    // Ürünün resim URL'si
+      price: 0,             // Ürünün fiyatı
+      name: "",   // Ürün ismi
+      count: 1,               // Ürün adedi
+      total_count: basket?.data?.total_count,  // Sepetteki toplam ürün sayısı
+      total_item: basket?.data?.total_item,    // Sepetteki toplam ürün adedi
+      total_amount: basket?.data?.total_amount // Sepetteki toplam miktar
     };
 
     dispatch(deleteFromBasket(basketProduct)).then((action) => {
@@ -192,11 +220,25 @@ const BasketMenu = () => {
 
 
   const handleDeleteAllBasket = (basketId: string) => {
-    const basketAll = {
-      user_id: user?.id,
+    const basketAll: BasketPostDataType = {
+      user_id: user?.id!,
       basket_id: basketId,
+      ageSize: isRectVisible ? "1" : isRectVisible2 ? "2" : null,
+      cover_url: "",  // Resim URL'sini buraya ekleyebilirsin
+      created: Date.now(),    // Oluşturulma zamanı (şu anki zaman)
+      amount: 1,              // Ürünün miktarı (örneğin, 1 olarak belirlenmiş)
+      description: "", // Ürün açıklaması
+      rest_id: "",      // Restoran ID'si veya benzer alan
+      category_id: "", // Kategori ID'si
+      allDescription: "", // Tüm açıklama
+      img_url: "",    // Ürünün resim URL'si
+      price: 0,             // Ürünün fiyatı
+      name: "",   // Ürün ismi
+      count: 1,               // Ürün adedi
+      total_count: basket?.data?.total_count,  // Sepetteki toplam ürün sayısı
+      total_item: basket?.data?.total_item,    // Sepetteki toplam ürün adedi
+      total_amount: basket?.data?.total_amount // Sepetteki toplam miktar
     };
-
     dispatch(deleteAllBasket(basketAll)).then((action) => {
       if (action.type === deleteAllBasket.rejected.type) {
         toast({
@@ -260,7 +302,7 @@ const BasketMenu = () => {
               <div className=' flex ml-28 mt-3 text-black'>
                 
                 <div>
-                  <Image src={miniBasket} width={30} height={30}/>
+                  <Image src={miniBasket} width={30} height={30} alt='minibasket'/>
                 </div>
                 
                 <h1 className=' ml-2 text-xl'>
@@ -301,13 +343,13 @@ const BasketMenu = () => {
                       </div>
 
                       <div className=' mt-5'>
-                      <button key={index} onClick={() => handleDeleteFromBasket(items.id)} className="bg-red-500 p-2 rounded-full">
+                      <button key={index} onClick={() => handleDeleteFromBasket(String(items.id))} className="bg-red-500 p-2 rounded-full">
                         <Image src={minus} alt="Delete product" width={35} height={35} />
                       </button>
                       </div>
 
                       <div className=' mt-5'>
-                      <button key={index} onClick={() => handleAddFromBasket(items.id)} className="bg-red-500 p-2 rounded-full">
+                      <button key={index} onClick={() => handleAddFromBasket(String(items.id))} className="bg-red-500 p-2 rounded-full">
                         <Image src={plus} alt="Delete product" width={35} height={35} />
                       </button>
                       </div>
@@ -342,7 +384,7 @@ const BasketMenu = () => {
 
       <div>
 <button  className=' flex gap-5' onClick={() => handleDeleteAllBasket(basketId)}>
-        <Image width={30} height={30} src={trash}/>
+        <Image width={30} height={30} src={trash} alt='trash'/>
         Clear Cart
       </button>
       </div>
