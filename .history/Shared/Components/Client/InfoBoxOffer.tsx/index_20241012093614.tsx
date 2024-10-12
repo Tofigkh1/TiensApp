@@ -74,14 +74,8 @@ function InfoBoxOffer(props: Props) {
                             <h1>Get notified when your medicine is available</h1>
                         </div>
                         <button
-                   
-                        className={`bg-white border border-clientButtonGreen rounded-[50px] px-4 py-2 flex items-center gap-5 justify-center w-60 transition-all duration-300 hover:bg-clientButtonGreen hover:text-white`}
-                  
-                      
-                            onClick={() => push('/medicines')}
-                            
-                      
-                        >
+  className={`bg-white border border-clientButtonGreen rounded-[50px] px-4 py-2 flex items-center gap-5 justify-center w-60 transition-all duration-300 hover:bg-clientButtonGreen hover:text-white`}
+>
                             Get prescription
                             <Image src={buttonVector} alt="Icon" width={17} height={0} />
                         </button>

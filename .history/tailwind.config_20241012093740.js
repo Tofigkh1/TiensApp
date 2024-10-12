@@ -9,8 +9,7 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      colors: {
+    colors: {
         clientButtonGreen: "#1BC768",
         grayText2: "#4F4F4F",
         whiteLight1: "#F3F4F6",
@@ -34,7 +33,7 @@ module.exports = {
         adminInfoBox: "#121212",
         goldText: "#e5b95e"
     },
-  },
+    extend: {},
   },
   plugins: [],
 }
