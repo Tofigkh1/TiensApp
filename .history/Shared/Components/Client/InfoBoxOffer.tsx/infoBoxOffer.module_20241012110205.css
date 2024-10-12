@@ -127,7 +127,7 @@ background: #D63626;
 
 
 @media screen and (max-width: 828px) {
-  .buttonn {
+  .button {
     background-color: white; /* bg-white */
     border: 1px solid #00a86b; /* border-clientButtonGreen */
     border-radius: 9999px; /* rounded-full */
