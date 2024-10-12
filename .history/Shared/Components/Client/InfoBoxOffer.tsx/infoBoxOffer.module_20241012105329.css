@@ -131,7 +131,7 @@ background: #D63626;
   align-items: center; /* items-center */
   gap: 20px; /* gap-5 */
   justify-content: center; /* justify-center */
-  width: 240px; /* w-60 */
+  width: 270px; /* w-60 */
   height: 45px; /* h-9 */
   transition: all 0.3s ease; /* transition-all duration-300 */
 }
@@ -153,7 +153,7 @@ background: #D63626;
     align-items: center; /* items-center */
     gap: 20px; /* gap-5 */
     justify-content: center; /* justify-center */
-    width: 240px; /* w-60 */
+    width: 270px; /* w-60 */
     height: 45px; /* h-9 */
     transition: all 0.3s ease; /* transition-all duration-300 */
   }
