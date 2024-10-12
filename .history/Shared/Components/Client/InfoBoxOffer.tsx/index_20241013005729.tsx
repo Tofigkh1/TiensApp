@@ -51,11 +51,11 @@ function InfoBoxOffer(props: Props) {
              {mobile ? (
             // Mobil görünüm
             <div className={style.oneOfferDiv}>
-                <div className={`${style.imageContainer}`} >
+                <div className={`${style.imageContainer}`} data-aos='fade-up'>
                     <Image className={style.oneImage} src={MedicinesIcon} alt="Icon" width={511} height={0} />
                 </div>
 
-                <div className={`${style.textContainer}`} >
+                <div className={`${style.textContainer}`} data-aos='fade-up'>
                     <div className={style.oneTitle}>
                         <h1>All your Medicine</h1>
                         <h1>needs in one place</h1>
