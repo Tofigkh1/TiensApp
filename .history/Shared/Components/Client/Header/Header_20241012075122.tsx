@@ -79,7 +79,7 @@ export default function Header() {
         className={`${styles.mySwiper} ${styles.background}`}
       >
      <SwiperSlide style={{  height: isMobile ? '600px' : '500px', position: 'relative' }}>
-  <div style={{ height: '670px', width: '100%', position: 'relative' }}>
+  <div style={{ height: '670px', width: isMobile ? '100%', position: 'relative' }}>
     <Image 
       src={DoctorPhoto} 
       alt="Doctor" 
