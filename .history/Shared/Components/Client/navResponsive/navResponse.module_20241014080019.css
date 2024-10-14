@@ -11,39 +11,37 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-    width: 200px;
-    height: 50px;
+    width: 175px;
+    height: 40px;
     font-size: 19px;
     font-weight: 500;
     line-height: 24px;
     letter-spacing: 0.03em;
     text-align: center;
-    color: black;
+    color: white;
     cursor: pointer;
     transition: all .5s;
-    background-color:white;
+    background-color: aquamarine;
     border-radius: 19px;
-    padding-top:10px;
     margin-top: 30px;
-    transition: all 0.2s ease;
+    
 }
 
 
-
 .nav_box ul li:hover{
-    background-color:aquamarine;
+    background-color: #26d6a1;
 }
 
 .nav_box ul li.active,
 .nav_box ul li:hover{
-    color: black;
+    color: white;
 }
 
 
 .nav_box ul li {
     position: relative;
     display: inline-block;
-    color: black;
+    color: white;
     text-decoration: none; 
 }
 

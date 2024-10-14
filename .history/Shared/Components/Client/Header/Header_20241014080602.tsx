@@ -135,7 +135,7 @@ export default function Header() {
 
           <div className='flex flex-row gap-4 items-center'>
             <div className={styles.mobile_hide}>
-              <Auth />
+          
             </div>
           </div>
         </section>

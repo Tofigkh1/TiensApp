@@ -12,7 +12,7 @@
     flex-direction: column;
     gap: 50px;
     width: 200px;
-    height: 50px;
+    height: 40px;
     font-size: 19px;
     font-weight: 500;
     line-height: 24px;
@@ -23,7 +23,7 @@
     transition: all .5s;
     background-color:white;
     border-radius: 19px;
-    padding-top:10px;
+    padding-top: 5px;
     margin-top: 30px;
     transition: all 0.2s ease;
 }

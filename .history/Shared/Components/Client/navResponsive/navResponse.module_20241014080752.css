@@ -11,8 +11,8 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-    width: 200px;
-    height: 50px;
+    width: 190px;
+    height: 40px;
     font-size: 19px;
     font-weight: 500;
     line-height: 24px;
@@ -21,13 +21,12 @@
     color: black;
     cursor: pointer;
     transition: all .5s;
-    background-color:white;
+    background-color: azure;
     border-radius: 19px;
-    padding-top:10px;
+    padding-top: 5px;
     margin-top: 30px;
-    transition: all 0.2s ease;
+    
 }
-
 
 
 .nav_box ul li:hover{

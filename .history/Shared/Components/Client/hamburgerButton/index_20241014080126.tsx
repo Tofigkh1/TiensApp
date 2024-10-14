@@ -23,7 +23,6 @@ import Medicine from "../../../../public/home_swiper2.jpg";
 import Medicinees from "../../../../public/medicalbanner.jpg";
 import Doctortb from "../../../../public/doctortb.jpg";
 import ArrovRight2 from '../../../../public/next.png';
-import NavRes from '../navResponsive';
 
 const Curve = styled.div`
   position: absolute;
@@ -85,7 +84,7 @@ export default function HamburgerBtn() {
         <div className={`${styles.menu} ${isMenuOpen ? styles.show : ''}`}>
             <div className='flex'>
                 <div className=' mt-5 ml-5'>
-                <NavRes />
+                <nav />
                 </div>
      
 <div className=' mt-5'>
