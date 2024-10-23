@@ -1,0 +1,12 @@
+{
+    "welcome": "Xoş gəlmisiniz",
+    "description": "Bu bir nümunə təsviri",
+    "submit": "Göndər",
+    "cancel": "İmtina et",
+    "loading": "Yüklənir...",
+    "error": "Xəta baş verdi",
+    "success": "Uğurla tamamlandı",
+    "settings": "Ayarlar",
+    "profile": "Profil",
+    "logout": "Çıxış et"
+  }

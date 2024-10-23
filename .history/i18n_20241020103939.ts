@@ -1,0 +1,1 @@
+import {getRequestConfig} from "next-intl"
